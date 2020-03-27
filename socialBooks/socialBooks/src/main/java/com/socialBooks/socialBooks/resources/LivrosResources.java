@@ -3,6 +3,8 @@ package com.socialBooks.socialBooks.resources;
 import java.net.URI;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,13 +30,13 @@ public class LivrosResources {
 		return ResponseEntity.status(HttpStatus.OK).body(livrosService.listar());
 	} 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<?> salvar(@RequestBody Livro livro) {
+	public ResponseEntity<?> salvar(@Valid @RequestBody Livro livro) {
 		livro = livrosService.salvar(livro);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(livro.getId()).toUri();
 		return ResponseEntity.created(uri).build();
 	}
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
-	public ResponseEntity<?> buscar(@PathVariable("id") Long id) {
+	public ResponseEntity<?> buscar(@Valid @PathVariable("id") Long id) {
 		Livro livro = livrosService.buscar(id);
 		return ResponseEntity.status(HttpStatus.OK).body(livro);
 	}
