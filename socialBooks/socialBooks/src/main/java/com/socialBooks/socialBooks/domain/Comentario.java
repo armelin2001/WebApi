@@ -14,24 +14,33 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Comentario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@NotEmpty(message = "O comentario precisa ter uma texto")
+	@Size(max=1500,message="O comentario n„o pode ter mais de 1500 caracteres")
+	@JsonProperty("comentario")
 	private String texto;
-	@NotEmpty(message = "O comentario deve ter um usuario")
-	@Size(max=1500,message="O resumo n√£o pode conter mais de 1500 caracteres")
+	
+	@JsonInclude(Include.NON_NULL)
 	private String usuario;
+	
 	@JsonFormat(pattern="dd/MM/yyyy")
-	@NotEmpty(message = "O comentario deve conter uma data")
+	@JsonInclude(Include.NON_NULL)
 	private Date data;
+	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="LIVRO_ID")
 	@JsonIgnore
 	private Livro livro;
+	
 	public Livro getLivro() {
 		return livro;
 	}

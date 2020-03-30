@@ -21,13 +21,20 @@ public class Autor {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@NotEmpty(message="O campo n√£o pode ser vazio")
+	
+	@NotEmpty(message="O campo n„o pode ser vazio")
 	private String nome;
-	@NotNull(message="O campo de nascimento n√£o pode ser vazio")
+	
+	
 	@JsonFormat(pattern="dd/MM/yyyy")
+	@JsonInclude(Include.NON_NULL)
+	@NotNull(message="O campo de nascimento n„o pode ser vazio")
 	private Date nascimento;
-	@NotNull(message="A nacionalidade n√£o pode vazia")
+	
+	@JsonInclude(Include.NON_NULL)
+	@NotNull(message="A nacionalidade n„o pode vazia")
 	private String nacionalidade;
+	
 	@OneToMany(mappedBy = "autor")
 	@JsonInclude(Include.NON_EMPTY)
 	@JsonIgnore
